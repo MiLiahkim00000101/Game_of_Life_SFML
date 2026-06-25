@@ -1,8 +1,16 @@
 #include <SFML/Graphics.hpp>
+#include "parser/parser_rules.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
-	sf::RenderWindow window( sf::VideoMode( { 200, 200 } ), "SFML works!" );
+	// Чтение файла и его парсинг
+	std::string rules = argv[1];
+	// std::cout << rules << "\n\n";
+	Parser parser;
+	parser.init(rules);
+
+	
+	sf::RenderWindow window( sf::VideoMode( { 640, 640 } ), "Life" );
 	sf::CircleShape shape( 100.f );
 	shape.setFillColor( sf::Color::Green );
 
@@ -18,4 +26,5 @@ int main()
 		window.draw( shape );
 		window.display();
 	}
+	
 }
