@@ -20,9 +20,12 @@ public:
     Parser();
 
     void init(std::string& filename);
-    void Get_birth_rules();
-    void Get_survive_rules();
-    void Get_universe_name();
-    void Get_universe_start_state();
+    void Read_birth_rules();
+    void Read_survive_rules();
+    void Read_universe_name();
+    void Read_universe_start_state();
+    void Read_all_rules();
+
+    void Print_all_rules();
 
 };

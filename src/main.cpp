@@ -8,6 +8,7 @@ int main(int argc, char *argv[])
 	// std::cout << rules << "\n\n";
 	Parser parser;
 	parser.init(rules);
+	parser.Read_all_rules();
 
 	
 	sf::RenderWindow window( sf::VideoMode( { 640, 640 } ), "Life" );
