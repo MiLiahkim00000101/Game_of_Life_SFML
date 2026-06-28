@@ -13,6 +13,7 @@ private:
     std::set<int> survive_rules;
     std::string uniName;
     std::vector<std::pair<int, int>> start_state;
+    uint32_t fstr_num = 0;
 
     std::string readLine();
 

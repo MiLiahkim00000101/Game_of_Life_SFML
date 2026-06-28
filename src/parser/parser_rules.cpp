@@ -18,6 +18,7 @@ std::string Parser::readLine(){
     std::string line;
     if (rules.is_open()){
         std::getline(rules, line);
+        fstr_num++;
     }
     return line;
 }
@@ -180,7 +181,40 @@ void Parser::Read_universe_name(){
 
 void Parser::Read_universe_start_state(){
     rules.seekg(0, std::ios_base::beg);
+    std::string line;
 
+    do{
+        line = readLine(); 
+        if (rules.eof() && start_state.empty()){
+            std::cerr << "WARNING: Your start state is empty. Please add some lines with positions of living cells in file .life i.e. 5 7" << std::endl;
+            return;
+        }
+
+        std::string first_symb_line = line.substr(0, 1);
+
+        if (!first_symb_line.empty() && (first_symb_line.find_first_not_of("0123456789") == first_symb_line.npos)){
+            std::string delims = " ;,:";
+            
+            // Handle the error of input
+            if ((line.find_first_not_of("0123456789" + delims) != line.npos)){
+                std::cerr << "WARNING: In the string number " << fstr_num << " is unparsable data. This line will be skipped.\nHere is the content of line: " << line << std::endl;
+                std::cerr << "Line with cell coordinates must contain two numbers - x, y coordinates - and separated with any # of delimiters: \"" << delims << "\"" << std::endl;
+                continue;
+            }
+            // Handle the error of input
+            
+            
+            std::string before_delim = line.substr(0, line.find_first_of(delims));
+            std::string after_delim = line.substr(line.find_last_of(delims) + 1);
+
+            int x_pos = std::stoi(before_delim);
+            int y_pos = std::stoi(after_delim);
+
+            start_state.emplace_back(x_pos, y_pos);
+
+        }
+
+    }while(!line.substr(0, 1).empty() && (line.substr(0, 1).find_first_not_of("0123456789") == line.substr(0, 1).npos));
 }
 //--------------------------------------------------------------------------------------------------------------------
 
@@ -198,6 +232,12 @@ void Parser::Print_all_rules(){
         std::cout << digit;
     }
     std::cout << std::endl;
+
+    std::cout << "Start cells: " << std::endl;
+    for (std::pair<int, int> coord : start_state){
+        std::cout << "(" << coord.first << ", " << coord.second << std::endl;
+    }
+
 }
 //--------------------------------------------------------------------------------------------------------------------
 
@@ -205,7 +245,7 @@ void Parser::Read_all_rules(){
     Read_universe_name();
     Read_birth_rules();
     Read_survive_rules();
-    // Read_universe_start_state();
+    Read_universe_start_state(); // TODO not working correct
     Print_all_rules();
 
 }
