@@ -191,9 +191,9 @@ void Parser::Read_universe_start_state(){
         }
 
         std::string first_symb_line = line.substr(0, 1);
+        std::string delims = " ;,:";
 
         if (!first_symb_line.empty() && (first_symb_line.find_first_not_of("0123456789") == first_symb_line.npos)){
-            std::string delims = " ;,:";
             
             // Handle the error of input
             if ((line.find_first_not_of("0123456789" + delims) != line.npos)){
@@ -214,7 +214,7 @@ void Parser::Read_universe_start_state(){
 
         }
 
-    }while(!line.substr(0, 1).empty() && (line.substr(0, 1).find_first_not_of("0123456789") == line.substr(0, 1).npos));
+    }while(!line.substr(0, 1).empty());
 }
 //--------------------------------------------------------------------------------------------------------------------
 
@@ -235,7 +235,7 @@ void Parser::Print_all_rules(){
 
     std::cout << "Start cells: " << std::endl;
     for (std::pair<int, int> coord : start_state){
-        std::cout << "(" << coord.first << ", " << coord.second << std::endl;
+        std::cout << "(" << coord.first << ", " << coord.second << ")" << std::endl;
     }
 
 }
@@ -245,7 +245,7 @@ void Parser::Read_all_rules(){
     Read_universe_name();
     Read_birth_rules();
     Read_survive_rules();
-    Read_universe_start_state(); // TODO not working correct
+    Read_universe_start_state();
     Print_all_rules();
 
 }
